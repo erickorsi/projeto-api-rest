@@ -4,7 +4,6 @@ as well as the model dump after training.
 '''
 
 import os
-import sys
 from datetime import datetime
 import pickle
 import numpy as np
@@ -19,10 +18,6 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from .model_settings import ModelSettings
-
-project_dir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(os.path.join(project_dir, 'notebook'))
-sys.path.append(os.path.abspath("notebook"))
 
 class TrainModel():
     '''
@@ -132,6 +127,7 @@ class TrainModel():
         # Ensure the directory exists before saving
         os.makedirs('notebook/models', exist_ok=True)
 
+        # Ideally this would be saved in a database
         with open(f'notebook/models/wine_model_{current_time}.pkl', 'wb') as model_file:
             pickle.dump(self.model, model_file)
 
@@ -140,8 +136,6 @@ if __name__ == "__main__":
     model_name = ModelSettings.MODEL
     scoring = ModelSettings.SCORING
     run_evaluation = ModelSettings.RUN_EVALUATION
-
-    print("Current Working Directory:", os.getcwd())
 
     model_trainer = TrainModel(
         seed,
