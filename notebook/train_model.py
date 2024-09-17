@@ -74,14 +74,14 @@ class TrainModel():
         Returns:
             (x_train, y_train)
         '''
+        print("Getting training data.")
         x, y = self.wine_data.data, self.wine_data.target
-        print(f'Class distribution: {np.bincount(y)}')
 
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=self.seed)
 
         sc = StandardScaler()
-        x_train = sc.transform(x_train)
-        x_test = sc.transform(x_test)
+        x_train = sc.fit_transform(x_train)
+        x_test = sc.fit_transform(x_test)
 
         return (x_train, y_train)
 
@@ -89,6 +89,7 @@ class TrainModel():
         '''
         Evaluates all mapped models and saves metrics.
         '''
+        print("Running models evaluation.")
         x_train, y_train = self.get_train_data()
         # Evaluate each model
         for name, model in self.models.items():
@@ -106,15 +107,15 @@ class TrainModel():
         current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
         # Ensure the directory exists before saving
-        os.makedirs('model_evaluations', exist_ok=True)
+        os.makedirs('notebook/model_evaluations', exist_ok=True)
 
-        df_results.to_csv(f'model_evaluations/model_evaluation_results_{current_time}.csv', index=False)
-        print("Results saved to model_evaluation_results.csv")
+        df_results.to_csv(f'notebook/model_evaluations/model_evaluation_results_{current_time}.csv', index=False)
 
     def train(self) -> None:
         '''
         Trains the specified model.
         '''
+        print("Training.")
         x_train, y_train = self.get_train_data()
         # Train model
         # May need to implement different proceedures for different models
@@ -125,12 +126,13 @@ class TrainModel():
         '''
         Saves the model pickle.
         '''
+        print("Saving model.")
         current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
         # Ensure the directory exists before saving
-        os.makedirs('models', exist_ok=True)
+        os.makedirs('notebook/models', exist_ok=True)
 
-        with open(f'models/wine_model_{current_time}.pkl', 'wb') as model_file:
+        with open(f'notebook/models/wine_model_{current_time}.pkl', 'wb') as model_file:
             pickle.dump(self.model, model_file)
 
 if __name__ == "__main__":
@@ -138,6 +140,8 @@ if __name__ == "__main__":
     model_name = ModelSettings.MODEL
     scoring = ModelSettings.SCORING
     run_evaluation = ModelSettings.RUN_EVALUATION
+
+    print("Current Working Directory:", os.getcwd())
 
     model_trainer = TrainModel(
         seed,
