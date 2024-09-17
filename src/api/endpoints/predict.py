@@ -20,20 +20,20 @@ async def post(
     features: Features
 ):
     feature_values = np.array([
-        features.feature_1,
-        features.feature_2,
-        features.feature_3,
-        features.feature_4,
-        features.feature_5,
-        features.feature_6,
-        features.feature_7,
-        features.feature_8,
-        features.feature_9,
-        features.feature_10,
-        features.feature_11,
-        features.feature_12,
-        features.feature_13
-    ])
+        features.alcohol,
+        features.malic_acid,
+        features.ash,
+        features.alcalinity_of_ash,
+        features.magnesium,
+        features.total_phenols,
+        features.flavanoids,
+        features.nonflavanoid_phenols,
+        features.proanthocyans,
+        features.color_intensity,
+        features.hue,
+        features.od280_od315_of_diluted_wines,
+        features.proline
+    ]).reshape(1, -1)
 
     # Load latest model
     # If the model is stored in a database, this process would
